@@ -30,39 +30,48 @@ class App extends React.Component {
 
   formSubmit = event =>{
     event.preventDefault()
-    const newItem = this.state.todoform;
+    const newItem = {
+      task: this.state.todoform.task,
+      id: Date.now(),
+      completed:false
+    };
     this.setState({
       todolist: [
         ...this.state.todolist, newItem
       ],
       todoform: {
         ...this.state.todoform,
-        task: ''
+        task: '',
       }
     })
   }
 
-  toggleCompleted = event =>{
+  toggleCompleted = key =>{
     // use DOM only
-    event.target.classList.toggle("completed")
+    // event.target.classList.toggle("completed")
 
     // use State
-
+    let update = this.state.todolist
+    update[key].completed = true
+    this.setState({
+      todolist: update
+    })
   }
 
   completedClear = event =>{
 
     // use DOM only
-    const completed = document.querySelectorAll('.completed')
-    for (var i = 0; i < completed.length; ++i) {
-      completed[i].classList.add('hidden');
-   }
+    // const completed = document.querySelectorAll('.completed')
+    // for (var i = 0; i < completed.length; ++i) {
+    //   completed[i].classList.add('hidden');
+    // }
 
     // use State
-    // const filteredList = this.state.todolist.filter( item => !item.completed)
-    // this.setState({
-    //   todolist: filteredList
-    // })
+    const filteredList = this.state.todolist.filter( item => !item.completed)
+    console.log(filteredList)
+    this.setState({
+      todolist: filteredList
+    })
   }
 
   render() {
